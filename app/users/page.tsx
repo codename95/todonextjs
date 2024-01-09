@@ -1,4 +1,5 @@
-import React from "react";
+import Link from "next/link";
+import React, { useState } from "react";
 
 interface AppUser {
   users: User[];
@@ -12,21 +13,22 @@ interface User {
   image: string;
 }
 const UsersPage = async () => {
-  const res = await fetch("https://dummyjson.com/users?limit=5");
+  const res = await fetch("https://dummyjson.com/users?limit=5", {
+    cache: "no-store",
+  });
   const appUsers: AppUser = await res.json();
-
-  console.log(appUsers);
   return (
     <>
       <div className="flex flex-col justify-center items-center h-[100vh]">
-        <div className="relative flex max-w-[500px] h-[430px] w-full flex-col rounded-[10px] border-[1px] border-gray-200 bg-white bg-clip-border shadow-md shadow-[#F3F3F3] dark:border-[#ffffff33] dark:!bg-navy-800 dark:text-white dark:shadow-none">
+        <div className="relative flex max-w-[900px] h-[430px] w-full flex-col rounded-[10px] border-[1px] border-gray-200 bg-white bg-clip-border shadow-md shadow-[#F3F3F3] dark:border-[#ffffff33] dark:!bg-navy-800 dark:text-white dark:shadow-none">
           <div className="flex h-fit w-full items-center justify-between rounded-t-2xl bg-white px-4 pb-[20px] pt-4 shadow-2xl shadow-gray-100 dark:!bg-navy-700 dark:shadow-none">
             <h4 className="text-lg font-bold text-navy-700 dark:text-white">
               Users
             </h4>
-            <button className="linear rounded-[20px] bg-lightPrimary px-4 py-2 text-base font-medium text-brand-500 transition duration-200 hover:bg-gray-100 active:bg-gray-200 dark:bg-white/5 dark:text-white dark:hover:bg-white/10 dark:active:bg-white/20">
-              See all
-            </button>
+
+            <Link href={`/home/`}>
+              <p> See all</p>
+            </Link>
           </div>
           <div className="w-full overflow-x-scroll px-4 md:overflow-x-hidden">
             <table
@@ -54,8 +56,8 @@ const UsersPage = async () => {
               </thead>
               <tbody role="rowgroup" className="px-4">
                 {appUsers.users.map((user) => (
-                  <tr role="row">
-                    <td key={user.id} className="py-3 text-sm" role="cell">
+                  <tr role="row" key={user.id}>
+                    <td className="py-3 text-sm" role="cell">
                       <div className="flex items-center gap-2">
                         <div className="h-[30px] w-[30px] rounded-full">
                           <img
